@@ -324,6 +324,24 @@ else ifeq ($(platform), miyoo)
 	FLAGS += -fomit-frame-pointer -ffast-math -mcpu=arm926ej-s
 	fpic := -fPIC
 
+# XYDDS
+else ifeq ($(platform), xydds)
+	TARGET := $(TARGET_NAME)_libretro.so
+	CC = /opt/xydds/usr/bin/arm-linux-gcc
+	AR = /opt/xydds/usr/bin/arm-linux-ar
+	SHARED := -shared -Wl,--no-undefined -Wl,--version-script=link.T
+	FLAGS += -fomit-frame-pointer -ffast-math -marm -mtune=cortex-a7 -mfpu=neon-vfpv4 -mfloat-abi=hard
+	fpic := -fPIC
+	ifeq ($(shell echo `$(CC) -dumpversion` "< 4.9" | bc -l), 1)
+	  FLAGS += -march=armv7-a
+	else
+	  FLAGS += -march=armv7ve
+	  # If gcc is 5.0 or later
+	  ifeq ($(shell echo `$(CC) -dumpversion` ">= 5" | bc -l), 1)
+	    LDFLAGS += -static-libgcc -static-libstdc++
+	  endif
+	endif
+
 # Raspberry Pi 1
 else ifeq ($(platform), rpi1)
 	TARGET := $(TARGET_NAME)_libretro.so
