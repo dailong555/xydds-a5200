@@ -332,15 +332,7 @@ else ifeq ($(platform), xydds)
 	SHARED := -shared -Wl,--no-undefined -Wl,--version-script=link.T
 	FLAGS += -fomit-frame-pointer -ffast-math -marm -mtune=cortex-a7 -mfpu=neon-vfpv4 -mfloat-abi=hard
 	fpic := -fPIC
-	ifeq ($(shell echo `$(CC) -dumpversion` "< 4.9" | bc -l), 1)
-	  FLAGS += -march=armv7-a
-	else
-	  FLAGS += -march=armv7ve
-	  # If gcc is 5.0 or later
-	  ifeq ($(shell echo `$(CC) -dumpversion` ">= 5" | bc -l), 1)
-	    LDFLAGS += -static-libgcc -static-libstdc++
-	  endif
-	endif
+	FLAGS += -march=armv7-a
 
 # Raspberry Pi 1
 else ifeq ($(platform), rpi1)
