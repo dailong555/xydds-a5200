@@ -330,9 +330,9 @@ else ifeq ($(platform), xydds)
 	CC = /opt/xydds/usr/bin/arm-linux-gcc
 	AR = /opt/xydds/usr/bin/arm-linux-ar
 	SHARED := -shared -Wl,--no-undefined -Wl,--version-script=link.T
-	FLAGS += -fomit-frame-pointer -ffast-math -marm -mtune=cortex-a7 -mfpu=neon-vfpv4 -mfloat-abi=hard
+	FLAGS += -fomit-frame-pointer -ffast-math -marm -mfpu=neon-vfpv4 -mfloat-abi=hard
 	fpic := -fPIC
-	FLAGS += -march=armv7-a
+	FLAGS += -DARM -mcpu=cortex-a7
 
 # Raspberry Pi 1
 else ifeq ($(platform), rpi1)
